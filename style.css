@@ -10,6 +10,7 @@
 }
 
 .coffee-item{
+  max-height:75px;
   background:rgba(0,0,0,0.7);
   margin: 10px 0; /*верх-низ отступили 10px, а спарва-слева 0*/
   border-radius:calc(75px/2);
@@ -36,7 +37,23 @@
 }
  
  .display{
-   background:lightgreen;
-   border: 3px solid darkgreen;
+   background:lightgreen;/*цвет кнопки*/
+   border: 3px solid darkgreen; /* отступ и чтобы края не прилипали*/
    padding: 10px;
  }
+
+.coffee-cup img{
+  width: 100%; /*свойство ширины  сейчас относительно родит. элемента кол6*/
+  }
+  
+  .atm img{
+    width: 100%;
+  }
+  .change-box {
+    background:grey;
+    border:3px solid black;
+    height: 100px;
+    margin-top: 15px;
+  }
+    
+  
