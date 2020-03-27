@@ -6,6 +6,17 @@ let progressBar = document.querySelector(".progress-bar");
 let coffeeCup = document.querySelector(".coffee-cup img");
 let coffeeStatus = "waiting"; // "cooking" "ready"//
 
+ coffeeCup.onclick = takeCoffee;/*не можем послать сюда параметры функции, нет скобок .первый вариант*/
+ 
+ /*coffeCup.onclick = function(){
+   takeCoff(this): второй вариант*/
+ /*coffeCup.addEventListener("click", takeCoffee, par1, par2) // второй вариант, пишем 4 раза
+   coffeCup.addEventListener("click", takeCoffee, par1, par2)
+   coffeCup.addEventListener("click", takeCoffee, par1, par2)
+   coffeCup.addEventListener("click", takeCoffee, par1, par2)*/
+   /*coffeCup.addEventListener("click", buyCoffee, "Американо", 21)*/
+   //если у функции ()то код не выполяняет посторочно//
+ 
 function buyCoffee(name, cost,elem) {
   if (coffeeStatus !="waiting"){
     return;
@@ -47,6 +58,17 @@ function buyCoffee(name, cost,elem) {
      clearInterval(cookingInterval);
    }
  },100);
+}
+function takeCoffee(){ /* будет переводить нашу машину в состояние нового заказа и потом оно снова будет исчезать */
+  if (coffeeStatus!= "ready"){
+  return;
+}
+  coffeeStatus = "waiting";
+  coffeeCup.classList.add("d-none");
+  /*кружку надо забрать с помощью html*/
+  coffeeCup.style.cursor = "auto";
+  progressBar.style.width = "0%";
+  changeDisplayText("Выберите кофе"); /* */
 }
 function changeDisplayText(text){
   displayText.innerHTML= "<span>"+text+ "</span>";
