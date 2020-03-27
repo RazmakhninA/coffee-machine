@@ -60,7 +60,7 @@ function buyCoffee(name, cost,elem) {
  },100);
 }
 function takeCoffee(){ /* будет переводить нашу машину в состояние нового заказа и потом оно снова будет исчезать */
-  if (coffeeStatus!= "ready"){
+  if (coffeeStatus != "ready"){/*не равно готов*/
   return;
 }
   coffeeStatus = "waiting";
@@ -68,12 +68,45 @@ function takeCoffee(){ /* будет переводить нашу машину 
   /*кружку надо забрать с помощью html*/
   coffeeCup.style.cursor = "auto";
   progressBar.style.width = "0%";
-  changeDisplayText("Выберите кофе"); /* */
+  changeDisplayText("Выберите кофе"); /*появляется по окончании эта надпись */
 }
 function changeDisplayText(text){
   displayText.innerHTML= "<span>"+text+ "</span>";
 }
 
+let bills = document.querySelectorAll(".wallet img");/*querySelectorAll  чтобы все найти купюры*/
+for(let i = 0; i < bills.length; i++){ /*цикл для купюр*/
+  bills[i].onmousedown = takeMoney;/*на мышку долгое нажатие*/
+  /*bills[i].onmousedown = ()=>{takeMoney()};*/
+}
+
+function takeMoney(event){ /*вызвали функцию нажать на купюру event - это относительно курсора, он всегда слушатели событий...не поняла*/
+ event.preventDefault(); /*чтобы тащилась купюра а не её призрак*/
+  let bill = this;
+  let billCost = bill.getAttribute("cost");
+  console.log(billCost);
+  bill.style.position = "absolute";/*купюра встала поверх остальных*/
+  bill.style.transform = "rotate(90deg)";/*перевернули купюру*/
+  
+ let billCoords = bill.getBoundingClientRect(); /*координаты наших купюр*/
+ let billWidth = billCoords.width;   /* координаты купюры относительно не запомнила.. курсора переменная ширины*/
+ let billHeight = billCoords.height;/*переменная высоты*/
+ /*console.log(event);
+ console.log(event.clientX, event.clientY);*/
+ 
+ bill.style.top = event.clientY - billWidth/2 + "px";
+ bill.style.left = event.clientX - billHeight/2 + "px";
+ 
+ window.onmousemove = (event) => {  
+   /*console.log(event.clientX, event.clientY);*/
+  bill.style.top = event.clientY - billWidth/2 + "px";
+  bill.style.left = event.clientX - billHeight/2 + "px";
+ };
+ bill.onmouseup = dropMoney;/*слушатель события - отжатие мышки, чтобы купюру отпускал*/
+}
+function dropMoney(){
+  window.onmousemove = null;/* отжали мышку и купюра отпускается*/
+}
 
 
 

@@ -60,7 +60,13 @@
         </div>
        </div>
       </div>
-     </div>
+    </div>
+      <div class="wallet"> <!--добавили купюры-->
+        <img src="img/50rub.jpg" alt="" cost="50">
+        <img src="img/100rub.jpg" alt="" cost="100">
+        <img src="img/500rub.jpg" alt=""cost="500">
+      </div>
+     
 
     <!-- Optional JavaScript -->
     <script src="script.js"></script>
@@ -71,3 +77,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
 </html>
+
