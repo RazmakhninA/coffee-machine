@@ -83,8 +83,8 @@ for(let i = 0; i < bills.length; i++){ /*цикл для купюр*/
 function takeMoney(event){ /*вызвали функцию нажать на купюру event - это относительно курсора, он всегда слушатели событий...не поняла*/
  event.preventDefault(); /*чтобы тащилась купюра а не её призрак*/
   let bill = this;
-  let billCost = bill.getAttribute("cost");
-  console.log(billCost);
+  
+  /*console.log(billCost);*/
   bill.style.position = "absolute";/*купюра встала поверх остальных*/
   bill.style.transform = "rotate(90deg)";/*перевернули купюру*/
   
@@ -106,11 +106,111 @@ function takeMoney(event){ /*вызвали функцию нажать на к�
 }
 function dropMoney(){
   window.onmousemove = null;/* отжали мышку и купюра отпускается*/
+  let bill = this;
+  let billCost = bill.getAttribute("cost");
+  if (inAtm(bill)){
+   balance.value = +balance.value + +billCost
+   bill.remove();/*убирает элемент со страницы*/
+ }
 }
 
+function inAtm(bill){
+  let billCoord = bill.getBoundingClientRect();/*координты купюры*/
+  let atm = document.querySelector(".atm");/*нашли купюроприемник*/
+  let atmCoord = atm.getBoundingClientRect();/*нашли координаты купюроприемника-*/
+  let billLeftTopCornerX = billCoord.x /*левый верхний край купюры*/
+  let billLeftTopCornerY = billCoord.y /*левый верхний край купюры*/
+  let billRightTopCornerX = billCoord.x+billCoord.width;/* прибавили ширину*/
+  let billRightTopCornerY = billCoord.y;
+  
+  let atmLeftTopCornerX = atmCoord.x;
+  let atmLeftTopCornerY = atmCoord.y;
+  
+  let atmRightTopCornerX = atmCoord.x + atmCoord.width;
+  let atmRightTopCornerY = atmCoord.y;
+  
+  let atmLeftBottomCornerX = atmCoord.x;/*координаты купюроприемника, все четыре*/
+  let atmLeftBottomCornerY = atmCoord.y + atmCoord.height/3;
+  
+  let atmRightBottomCornerX = atmCoord.x + atmCoord.width;
+  let atmRightBottomCornerY = atmCoord.y + atmCoord.height/3;/*правый нижний угол АТМ*/ /*мы нашли все, но потом почистим, все 4 необязательно*/
+   
+ /*console.log(
+              [
+                [billLeftTopCornerX, billLeftTopCornerY] , [billRightTopCornerX, billRightTopCornerY]
+              ],
+              [
+                [atmLeftTopCornerX, atmLeftTopCornerY] , [atmRightTopCornerX, atmRightTopCornerY],
+                [atmLeftBottomCornerX, atmLeftBottomCornerY] , [atmRightBottomCornerX, atmRightBottomCornerY],
+              ]/*вывело на консоль две координаты купюры и 4 точки купюроприемника
+              ); */
+  if  (
+    billLeftTopCornerX >= atmLeftTopCornerX /*проверили верхний край, что купюра не заходит левый край АТМ, ограничили слева*/
+    && billLeftTopCornerY >= atmLeftTopCornerY/*ограничили справа*/
+    && billRightTopCornerX <= atmRightTopCornerX /* <=  именно так */
+    && billRightTopCornerY >= atmRightTopCornerY
+    
+    
+    && billLeftTopCornerX >= atmLeftBottomCornerX
+    && billLeftTopCornerY <= atmLeftBottomCornerY/* сравнили верхний левый край купюры и  левый низ АТМ */
+    ){      
+  return(true);
+  }else {
+   return(false);
+  }
 
+}
+//....сдача..................//
+let changeBtn = document.querySelector(".change");/*changeBtn - 'это changeBaton*/
+changeBtn.onclick = takeChange;
+function takeChange(){
+ // alert("Сдача");/*в алерте написал сдача*/
+  tossCoin("10");
+}
+  function tossCoin(cost){  /*функция выдает монетку, не считает пока*/
+  let changeContainer = document.querySelector(".change-box");
+  let changeContainerCoords = changeContainer.getBoundingClientRect();/*ищет координаты контейнера "сдача"*/
+  /*console.log(changeContainerCoords); выдал коордтнаты*/
+  let coinSrc= "";
+  
+  switch (cost){
+   case"10":
+     coinSrc = "img/10rub.png";
+     break;
+    case"5":
+     coinSrc = "img/5rub.png";
+     break;
+   case"2":  
+     coinSrc = "img/2rub.png";
+     break;
+    case"1":
+     coinSrc = "img/1rub.png";
+     break;
+  }
+  /*changeContainer.innerHTML += `
+  <img src="${coinSrc}"style="height: 50px">  так можно добавлять новый элемент 1 способ
+  `*/
+  
+  let coin = document.createElement("img");
+  coin.setAttribute("src", coinSrc);
+  coin.style.height = "50px";
+  coin.style.cursor = "pointer";
+  coin.style.display = "inline-block";
+  coin.style.position = "absolute";
+  
+  changeContainer.append(coin);//внутрь контейнера прикрепить после
+  /*changeContainer.prepend(coin);// прикрепить до, в самое начало*/
+ /* changeContainer.after(coin);//после контейнера
+  changeContainer.before(coin);// перед контейнером
+  changeContainer.replace(coin);//заменяет элементы. сначала к чему, потом что прикрепляет*/
+  
+  coin.style.top = Math.round(Math.random()*(changeContainerCoords.height-50))+"px";
+  coin.style.left = Math.round(Math.random()*(changeContainerCoords.width-50))+"px";/*добавили в css .change-box {
+position: relative;
+} и сдача стала только в сером квадрате не выходить за края*/
 
-
-
-
+  coin.onclick = () => coin.remove();/*кушуются купюры*/
+  
+  
+}
 

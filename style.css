@@ -54,6 +54,11 @@
     border:3px solid black;
     height: 100px;
     margin-top: 15px;
+    position:relative;
+  }
+  .wallet img { /* поменялм размер купюр*/
+    cursor: pointer;
+    width: 20%;
   }
     
   
