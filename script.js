@@ -163,9 +163,41 @@ function inAtm(bill){
 //....сдача..................//
 let changeBtn = document.querySelector(".change");/*changeBtn - 'это changeBaton*/
 changeBtn.onclick = takeChange;
+
+
 function takeChange(){
  // alert("Сдача");/*в алерте написал сдача*/
-  tossCoin("10");
+ // tossCoin("10");/*функция забрать сдачу*///
+if (balance.value <= 0) {//если нет денег, то не выдаем значение баланса
+  changeBtn.onclick = takeChange;/*эта строчка возвращает все на место эту и ниже добавили*/
+    return;
+  }
+  changeBtn.onclick = null;/*эта строчка все снимает. чтобы во время падания монеток и нажатия мыши баланс в минус не уходил, добавили две сторочки changeBtn.onclick = takeChange; и changeBtn.onclick = null;*/
+ if  (balance.value - 10 >= 0){
+   setTimeout(() =>{
+    tossCoin("10");// выдать 10
+    balance.value -= 10; // вычесть 10 из баланса
+    return takeChange();
+   },300);
+  }else if (balance.value - 5 >= 0){
+  setTimeout(() =>{
+    tossCoin("5");
+    balance.value -= 5;
+    return takeChange();
+    },300);
+  }else if (balance.value - 2 >= 0){
+    setTimeout(() =>{
+     tossCoin("2");
+     balance.value -= 2;
+    return takeChange();
+  },300);
+  }else if (balance.value - 1 >= 0){
+  setTimeout(() =>{
+  tossCoin("1");
+  balance.value -= 1;
+  return takeChange();
+  },300);
+ }
 }
   function tossCoin(cost){  /*функция выдает монетку, не считает пока*/
   let changeContainer = document.querySelector(".change-box");
@@ -197,6 +229,7 @@ function takeChange(){
   coin.style.cursor = "pointer";
   coin.style.display = "inline-block";
   coin.style.position = "absolute";
+  coin.style.userSelect = "none";/*чтобы пока монетки сыпались нельзя было заказать ещё одну*/
   
   changeContainer.append(coin);//внутрь контейнера прикрепить после
   /*changeContainer.prepend(coin);// прикрепить до, в самое начало*/
@@ -210,7 +243,9 @@ position: relative;
 } и сдача стала только в сером квадрате не выходить за края*/
 
   coin.onclick = () => coin.remove();/*кушуются купюры*/
-  
+let coinSound = new Audio("sound/coindrop.mp3");
+//coinSound/src = "sound/coindrop.mp3" вместо new Audio() //
+coinSound.play();
   
 }
 
