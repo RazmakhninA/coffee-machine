@@ -62,8 +62,66 @@ mouseup => onmouseup - отпустили кнопку мыши
 
     let childElem = elem.querySelector(".childElem");
     
-    // слушатели событий
-    1 вписати событие в html
-    2 let elem = document.qverySelector(".elem");
-     elem.onclick = 
+     // Cлушатели событий
+  
+  1. Вписать событие в html
+  
+  2.  let elem = document.querySelector(".elem");
+      elem.onclick = someFunction;
+  3.  elem.addEventListener("click", someFunction);
+      elem.addEventListener("click", anotherFunction);
+      
+      coffeeCup.addEventListener("click", () => {
+        takeCoffee
+      })
+
+      coffeeCup.onclick = function() {
+        takeCoffee();
+      }
+      //--------------------------------------------//
+      elem.onclick = null;
+      elem.removeEventListener("click", someFunction);
+      
+      //-----параметр event-------------------------//
+      
+      elem.onclick = someFunction;
+      
+      function someFunction(event) {
+        event.preventDefault() //Сбрасывает события по умолчанию
+        event.clientX //Положение курсора по оси Х
+        event.clientY //Положение курсора по оси Y
+      } 
+      
+
+      //querySelectorAll()
+      bills = document.querySelectorAll(".wallet img") ===> NodeList[img, img, img];
+      
+      //Получить координаты
+      let elem = document.querySelector(".elem");
+      let coords = elem.getBoundingClientRect();
+      
+      coords.x
+      coords.y
+      coords.width
+      coords.height
+      coords.top
+      coords.left
+      coords.right
+      coords.bottom
+      
+    /*coffeeCup.addEventListener("click", takeCoffee, par1, par2) //второй вариант
+coffeeCup.addEventListener("click", takeCoffee, par1, par2)
+coffeeCup.addEventListener("click", takeCoffee, par1, par2)
+coffeeCup.addEventListener("click", takeCoffee, par1, par2)
+
+coffeeCup.addEventListener("click", buyCoffee, "Американо", 21)*/
+
+/*coffeeCup.addEventListener("click", () => {
+  takeCoffee
+})*/
+
+/*coffeeCup.onclick = function() {
+  takeCoffee();
+}*/
+    
     
